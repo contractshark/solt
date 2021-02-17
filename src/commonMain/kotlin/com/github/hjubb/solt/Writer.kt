@@ -70,6 +70,7 @@ class Writer : Subcommand("write", "Generates a solc-input.json file for verific
         val sol = process(fileSet + deps, nonOptimized, runs)
         val solString = Json {
             // any Json config here
+            prettyPrint = true
         }.encodeToString(sol)
 
         // get the output file's name
@@ -132,12 +133,10 @@ class Writer : Subcommand("write", "Generates a solc-input.json file for verific
                     val collected = WrappedFile(group.value, File("node_modules" + File.SEPARATOR + group.value))
                     collected
                 }
-                if (deps.contains(collected)) {
-                    deps
-                } else {
-                    deps += collected
+                if (deps.add(collected)) {
                     collectDeps("node_modules", collected, false, deps, unknowns)
                 }
+                deps
             }
         }.toSet()
     }

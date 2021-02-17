@@ -11,13 +11,13 @@ CLI tool to help you do two things:
 
 ### Linux
 ```bash
-wget https://github.com/hjubb/solt/releases/latest/download/solt-linux-x64 -O ~/.local/bin/solt
+wget https://github.com/hjubb/solt/releases/download/v0.5.2/solt-linux-x64 -O ~/.local/bin/solt
 chmod +x ~/.local/bin/solt
 ```
 
 ### Mac
 ```bash
-wget https://github.com/hjubb/solt/releases/latest/download/solt-mac -O ~/.local/bin/solt
+wget https://github.com/hjubb/solt/releases/download/v0.5.2/solt-mac -O ~/.local/bin/solt
 chmod +x ~/.local/bin/solt
 ```
 
@@ -35,6 +35,8 @@ Optional flags
 * `--npm` Flag for whether this project uses npm style imports (node_modules)
 * `--output` [string] Output file name (defaults to solc-input-[file].json)
 * `--help` `-h` Usage info
+
+Note that you are expected to run this from the root of your Solidity project. That is, from the same directory where "node_modules" can be found. Otherwise, certain features like the `--npm` flag will not work.
 
 ### Verify
 
@@ -59,7 +61,7 @@ Optional flags:
 ```bash
 git clone https://github.com/MainframeHQ/mainframe-lending-protocol.git /tmp/example
 cd /tmp/example
-npm install # installs node dependencies as mainframe uses openzepplin contracts
+yarn install # installs node dependencies
 
 solt write contracts --npm
 

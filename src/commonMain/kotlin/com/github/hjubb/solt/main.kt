@@ -27,6 +27,10 @@ fun main(args: Array<String>) {
             println("solt version: ${BuildKonfig.version}")
         }
     } catch (e: Exception) {
-        println("${e::class.simpleName} ${e.message}")
+        if (Environment.getEnv("DEBUG") != null) {
+            e.printStackTrace()
+        } else {
+            println("${e::class.simpleName} ${e.message}")
+        }
     }
 }

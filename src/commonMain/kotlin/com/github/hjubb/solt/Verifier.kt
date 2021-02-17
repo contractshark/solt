@@ -118,10 +118,21 @@ class Verifier : Subcommand("verify", "Verify the contracts via Etherscan's HTTP
 
             val inputJson = Json.decodeFromString(BigSolInput.serializer(), input)
 
-            val foundContract = inputJson.sources.entries.firstOrNull { it.key.contains(searchName) }
-                ?: throw Exception("couldn't find $searchName in the json content")
+            val (foundContract, foundName) = inputJson.sources.entries.mapNotNull {
+                when {
+                    it.key.contains(searchName, true) -> {
+                        it to it.key.getSolidityName()
+                    }
+                    it.value.findContractName()?.contains(searchName, true) == true -> {
+                        it to it.value.findContractName()!!
+                    }
+                    else -> {
+                        null
+                    }
+                }
+            }.firstOrNull() ?: throw Exception("couldn't find $searchName in the json content")
 
-            val remappingName = if (rename.isNotBlank()) rename else foundContract.key.getSolidityName()
+            val remappingName = if (rename.isNotBlank()) rename else foundName
             println("verifying ${foundContract.key} with name \"$remappingName\"")
 
             val contractMapping = foundContract.let {

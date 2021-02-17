@@ -5,7 +5,23 @@ import kotlinx.serialization.json.JsonObject
 import pw.binom.io.file.File
 
 @Serializable
-data class Content(val content: String)
+data class Content(val content: String) {
+
+    companion object {
+        val contractRegex =
+            Regex("contract (\\w+)")
+    }
+
+    fun findContractName() : String? {
+        return content.lineSequence()
+            .mapNotNull {
+                contractRegex.find(it)
+            }
+            .map { result ->
+                result.groups[1]!!.value
+            }.firstOrNull()
+    }
+}
 
 @Serializable
 data class BigSolInput(

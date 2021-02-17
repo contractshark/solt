@@ -4,10 +4,9 @@
 name: Build
 
 on:
-#   push:
-#     tags:
-#       - '*' 
-  workflow_dispatch
+   push:
+     tags:
+       - '*'
 
 jobs:
   build-mac:
